@@ -24,12 +24,8 @@ public class MyLinkedList<T> implements List<T> {
     @Override
     public void add(T value, int index) {
         Node<T> newNode = new Node<>(null, value, null);
-        if (index == 0) {
-            add(value);
-        }
         if (index == size) {
-            last.next = newNode;
-            last = newNode;
+            add(value);
         }
         Node<T> leftNode = currentNode(index);
         Node<T> rightNode = leftNode.prev;
@@ -42,8 +38,12 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void addAll(List<T> list) {
-        for (int i = 0; i < list.size(); i++) {
-            add(list.get(i));
+        if (isEmpty()) {
+            System.out.println("The list is empty.");
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                add(list.get(i));
+            }
         }
     }
 
@@ -87,7 +87,7 @@ public class MyLinkedList<T> implements List<T> {
         if (!isEmpty()) {
             Node<T> newNode = first;
             for (int i = 0; i < size; i++) {
-                if (newNode.item == t) {
+                if (newNode.item.equals(t)) {
                     return remove(i);
                 }
                 newNode = newNode.next;
@@ -133,7 +133,7 @@ public class MyLinkedList<T> implements List<T> {
         return true;
     }
 
-    class Node<T> {
+    private static class Node<T> {
         private Node<T> next;
         private Node<T> prev;
         private T item;
