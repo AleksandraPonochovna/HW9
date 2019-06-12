@@ -27,10 +27,10 @@ public class MyLinkedList<T> implements List<T> {
             add(value);
         }
         Node<T> prevNode = currentNode(index - 1);
-        Node<T> nextNode = currentNode(index);
+        Node<T> nextNode = prevNode.next;
         Node<T> newNode = new Node<>(prevNode, value, nextNode);
         prevNode.next = newNode;
-        newNode.prev = newNode;
+        nextNode.prev = newNode;
         size++;
     }
 
