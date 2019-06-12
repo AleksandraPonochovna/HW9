@@ -9,13 +9,12 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void add(T value) {
-        Node<T> newNode = new Node<>(null, value, null);
+        Node<T> newNode = new Node<>(last, value, null);
         if (isEmpty()) {
             first = newNode;
             last = newNode;
         } else {
             last.next = newNode;
-            newNode.prev = last;
             last = newNode;
         }
         size++;
@@ -23,16 +22,15 @@ public class MyLinkedList<T> implements List<T> {
 
     @Override
     public void add(T value, int index) {
-        Node<T> newNode = new Node<>(null, value, null);
+        checkIndex(index);
         if (index == size) {
             add(value);
         }
-        Node<T> leftNode = currentNode(index);
-        Node<T> rightNode = leftNode.prev;
-        leftNode.next = newNode;
-        rightNode.prev = newNode;
-        newNode.prev = leftNode;
-        newNode.next = rightNode;
+        Node<T> prevNode = currentNode(index - 1);
+        Node<T> nextNode = currentNode(index);
+        Node<T> newNode = new Node<>(prevNode, value, nextNode);
+        prevNode.next = newNode;
+        newNode.prev = newNode;
         size++;
     }
 
@@ -106,7 +104,7 @@ public class MyLinkedList<T> implements List<T> {
         return size == 0;
     }
 
-    public Node<T> currentNode(int index) {
+    private Node<T> currentNode(int index) {
         Node<T> current = first;
         for (int i = 0; i < index; i++) {
             current = current.next;
